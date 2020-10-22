@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+ls -l /home/adminuser/check
+
+if [ $? -eq 0 ] 
+then
+echo File Exist
+else
+echo Sorry no such file
+fi

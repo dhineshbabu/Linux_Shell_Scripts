@@ -1,0 +1,384 @@
+: Interface between hardware and software
+Shell: Interface between users and kernels (operating system) echo $0 will return the type of shell ( in centos it will return 'bash')
+	cat /etc/shells to get the list of shells
+
+cat /etc/passwd  => to check what's the shell assigned to your usedr name
+
+Types of shells:
+----------------
+Gnome (GUI)
+KDE (GUI)
+sh (command line)
+bash (command line)
+csh and tcsh (command line)
+ksh (command line)
+
+Starting a shell:
+-----------------
+simply type the shell name
+
+centos uses gnome for GUI and bash for command line
+
+type sh to go to the sh shell
+type exit to go back to bash again
+
+Running a shell script:
+-----------------------
+give absolute path
+or ./scriptname (relative path)
+
+Shell scripting standards:
+--------------------------
+
+Naming convention:
+Create a scripts directory
+Script name should identify function
+Script extension should be .shell (if multiple shells are available)
+
+Script File Permission:
+-------------------------
+user-group-others
+rwxr-xr-xr-x
+
+To change permissions:
+(e.g) chmod a+x scriptname
+
+shell script Format:
+--------------------
+Define shell (#!/bin/bash)
+comments (#) => give description about the script
+Define variables
+commands
+Statments (if, while, for etc.)
+
+Script runs from top to bottom
+
+
+Basic Shell Scripts:
+---------------------
+su - => will change to root user
+
+$ used for variables
+'read' to get the user input
+hostname
+use `` to use variables in echo
+
+we can use -eq or == for comparison
+
+sleep to make the script  wait for specified seconds
+
+Exit Status:
+------------
+0 - OK
+1 - MInor problkem
+2 - Serious Trouble
+3-255  -  everything else
+
+echo $? -> to check my previous command was successful (we will get 0 if it is successful)
+
+ping 192.168.1.1
+
+/dev/null is a file in linux (like  a dummy file). if we write anything to thius file, it will disappear
+
+&> study about this
+
+Creating cron jobs:
+-------------------
+crontab -e
+crontab -l => to view the contents of crontab
+
+34 20 * * * /home/adminuser/scripts/advanced_scripts/03_ping_script | mail -s :Connectivity Status" dhinesh
+lovesyou@gmail.com
+
+Creating files with older timestamps: touch -d "Thu, 1 March 2018 12:30:00" a
+Finding files with older timestamps: find /home/adminuser/scripts/advanced_scripts -mtime +90 -exec ls -l {} \;
+Deleting files with older timestamps: find /home/adminuser/scripts/advanced_scripts -mtime +90 -exec rm {} \;
+Rename old files files with older timestamps: find /home/adminuser/scripts/advanced_scripts -mtime +90 -exec mv {} {}.old \;
+
+
+Taking backup: tar -cvf /tmp/backup.tar /var
+To compress: gzip /tmp/backup.tar
+
+
+grep -c adminuser /etc/passwd  => to get the search count
+
+lsit of users logged in recently can be seen by 'last'  command
+
+nohup ./15_loggertail &  => to run the loger from backend
+
+
+/etc/passwd qill have active users
+/etc/shadow will have disabled users
+
+Kill the process with name "Sleep 600":  ps -ef | grep "sleep 600" | grep -v grep | awk '{print $2}' | xargs -I{} kill {}
+
+Disk space: df -h | egrep -v "tmpfs|devtmpfs" | tail -n+2
+df -h | egrep -v "tmpfs|devtmpfs" | tail -n+2 | awk '{print $5}' | cut -d'%' -f1
+
+ls -l file* | wc -l
+
+Read more about 'sed' command
+
+Use "Bridged Adapter' in Oracle VirtualBox if you are using putty 
+
+
+Important Information:
+----------------------
+"root" is a super administrative account in Linux ('su -' in centos and 'sudo -s' in ubuntu)
+Linux is a case sensitive system
+Avoid using files names with spaces in it
+
+Linux File Types:(based on the first letter in the output of ls -l)
+-----------------
+- Regularfile
+d Directory
+l link
+c Special File or device files socket
+p Named pipe
+b Block device
+
+WildCards:
+-----------
+* - represents zero or more characters
+? - represents a single character
+[] - represents a range of characters
+
+Soft links vs Hard links:
+-------------------------
+inode = Pointer or number of a file on the hard disk
+softlink =  Link will be removed if file is removed or renamed
+Hard link = Deleting , renaming or movinh the original file will not affect the hard link
+ln filename => hasd link
+ln -s filename => softlink
+
+File Ownership:
+---------------
+There are 2 owners for a file or directory:
+user and group
+
+chown - to change ownership of the file
+chgrp - to change the group ownership of a file
+
+User -R for recursive ownership
+
+Combining and Splitting files:
+-------------------------------
+cat file1 file2 file3 > file 4
+
+split -l 300 file.txt output  (output will be outputaa outputab outputac and etc.)
+
+Editors in Linux:
+------------------
+vi - standard text editor
+ed - standard line editor
+ex - Extended line editor
+emacs - A full screen editor
+pico - Beginner's editor
+vim - Advanced version of vi 
+
+
+sed command:
+-------------
+Replaces a string in a file with a newstring
+Find and delete a line
+Removes empty lines
+Removes first line or n linesTo replace tabs with spaces
+show defined lines from a file
+Substitute within vi editor
+and etc.
+
+sed 's/africa/London/g' input.txt => this will not change the actual file
+use -i to permenantly write the changes: sed -i 's/africa/London/g' input.txt
+
+sed 's/London//g' input.txt => to remove the text
+
+System Utility Commands:
+-------------------------
+
+date
+uptime
+hostname
+uname -a - to knpw the information about the opereating system
+which
+cal
+bc - binary calculator
+
+System Logs Monitoring:r
+-------------------------
+Log Directory: /var/log
+
+boot
+secure
+cron
+messages
+syslog (ubuntu) anbd etc.
+
+Terminal Commands:
+------------------
+clear
+exit
+script - Stores terminal activities in a log file that can be named by a user, when a name is not provided by a user, the default file name, typescript is used
+script filename.log (type exit to stop script recording)
+
+Alias:
+------
+alias name='command'
+
+unalias aliasname
+
+NOC Bonding:
+------------
+NIC bonding is also known as Network Bonding. It can be defined as the aggrergation of NIC cards for high availability
+
+save system state in VM
+Add a new network adapter in VirtualBox
+ifconfig will show 2 network interfaces
+become root user
+
+File Transfer Commands:
+------------------------
+ftp
+scp
+rsync
+
+ftp ftp.servername.com
+
+demo: ftp ftp.redhat.com
+
+scp totransfer dhinesh-Lenovo-Flex-2-14:/home/dhinesh/tbd
+
+
+RAID: Redundant Array of Independednt Disks
+--------------------------------------------
+RAID0
+RAID1
+RAID5
+
+Difference Between CentOS/Redhat 5, 6 and 7:
+---------------------------------------------
+CentOS and RHEL are technically the same (but RHEL has support)
+
+Linux OS hardening:
+-------------------
+to read all the user names: cat /etc/passwd
+
+chage -l adminuser => to check the password details
+
+/etc/login.defs
+
+rpm -qa | wc -l => to get the packages in the system
+
+netstat -tunlp => to get the active connections (TCP)
+
+firewall-config =. to configure firewall using GUI utility
+
+SE Linux: (Security Enhanced Linux)
+------------------------------------
+Kernel module that provides a mechanism for supporting access control security policies including mandatory access controls
+
+sestatus or getenforce
+
+/etc/selinux/config - for selinux settings
+SELINUX=enforcing
+SELINUX=disabled
+
+./autorelabel
+
+Labaling: 
+Type Enforcement:
+
+Network File System (NFS):
+--------------------------
+Developed by Sun Micro Systems
+
+Server side:
+yum install nfs-utils libnfsidnmap
+
+once installed, enable and start the nfs service
+systmctl enable rpcbind
+systmctl enable nfs-server
+systmctl start rpcbind, nfs-server, rpc-statd, nfs-idmapd
+
+#Assign Permissions
+mkdir /sample
+chmod a+rwx /sample
+
+#Modify the /etc/exports file to add new shared filesystem
+/sample 192.168.12.7(rw,sync,no_root_squash) = for only 1 host ip is client id assress
+
+exportfs -rv
+
+Linux Performance Issues:
+-------------------------
+diskspace: df -h
+du -ah | sort -nr
+
+top - to see top statistics of resource utilization
+
+free -m => to check the memory status
+
+cat /proc/meminfo 
+
+vmstat
+
+pmap processid
+
+dmidecode | more => info about the hardware, vendor and etc.
+
+lscpu => to get cpu architectuire info
+
+cat /proc/cpuinfo => similar to lscpu
+
+iostat - disk status
+
+iostat -y s
+
+tcpdump -i eth0
+
+lsof -i -P -n | grep -i listen  => to get the listeneing ports
+
+ss -plnt => similar to netstat
+ 
+iftop (yum install epel-release && yum install iftop) => to check the data transfer from / to the system
+
+Other tools:
+htop, iotop, iptraf, psacct
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

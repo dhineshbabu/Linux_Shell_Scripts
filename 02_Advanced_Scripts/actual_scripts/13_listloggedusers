@@ -1,0 +1,5 @@
+#!/bin//bash
+#Desc: This script will list users logged by date
+
+today=`date | awk '{print $1,$2,$3}'`
+last | grep "$today"

@@ -1,0 +1,11 @@
+#!/bin/bash
+#Desc: This script will send an email to the admin
+
+IT="dhinesh@email.com"
+
+if [ -s /tmp/filtered_Thanos_messages  ]
+	then
+	cat /tmp/filtered_Thanos_messages | sort | uniq | mail -s "Syslog" $IT
+	rm /tmp/filtered_Thanos_messages
+	else
+	fi

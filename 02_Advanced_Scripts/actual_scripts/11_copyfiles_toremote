@@ -1,0 +1,10 @@
+#!/bin/bash
+#Author: Thanos
+#Desc: This script will copy files to remote hosts
+
+# a=`cat /home/adminuser/abc` use this line of you keep your server hosts names or ip address in a file
+
+for i in redhat1 readhat2 redhat3 redhat4
+do
+	scp somefile $i:/tmp
+done

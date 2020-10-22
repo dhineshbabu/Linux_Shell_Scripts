@@ -1,0 +1,14 @@
+#!/bin/bash
+
+total=`ls -l samplefile* | wc -l`
+
+echo It will take $total seconds to assign permissions
+
+echo
+
+for i in samplefile.*
+do
+	echo Assiging Write Permission to $i
+	chmod a+x $i
+	sleep 1
+done

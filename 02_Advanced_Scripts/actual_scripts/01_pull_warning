@@ -1,0 +1,6 @@
+#!/bin/bash
+#Author: Thanos
+#Date: 03/28/2020
+#Desc: This will pull only error messages from /var/log/messages
+
+grep -i warn  /home/adminuser/scripts/advanced_scripts/messages

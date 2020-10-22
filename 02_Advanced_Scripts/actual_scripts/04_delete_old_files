@@ -1,0 +1,4 @@
+#!/bin/bash
+#Desc: This script will delete files older than 90 days
+
+find /home/adminuser/scripts/advanced_scripts -mtime +90 -exec mv {} {}.old \;

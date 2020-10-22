@@ -1,0 +1,15 @@
+#!/bin/bash
+#Desc: To run basic tasks
+#Author: Thanos
+#Date Created: 03/28/2020
+#Date Modified: 03/28/2020
+
+echo
+echo This script will run a few basic tasks
+echo
+pwd
+ls
+whoami
+date
+cal
+touch a b c

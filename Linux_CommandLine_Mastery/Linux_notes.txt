@@ -1,0 +1,541 @@
+keyboard shortcut to open the terminal:
+c
+ctrl+alt+t - open
+ctrl+d - close
+
+Section 2: Basic commands
+cal 2017
+cal -y - will give for current year
+
+
+Keyboard shortcut to clear the terminal screen: ctrl+l
+
+know the difference between commands, shells and terminal
+
+commands are case sensitive
+
+echo $PATH
+
+commands with paratameters:
+date -u
+
+Manual Structure:
+1 user commands
+2 system calls
+3 C Librarty functions
+4 Device and Special files
+5 File formats and conventions
+6 Games
+7 Miscellaneous
+8 System Administration
+
+
+manual page:
+------------
+for 1st section of manual page, we dont need to use 1 in the man command we can directly use "man which"
+
+in a man page f something in [] then that is optional
+... means we can enter more than one input
+
+<> means it is mandatory
+| sumbol means any one of them can be used
+
+man -k "list directory contents"
+
+if man is not available for few commands use "help and command"
+
+Command Input and Output:
+-------------------------
+standard input (0)  (e.g) cat with no arguments
+command arguments (input)
+standard output (1)
+standard error (2)
+
+
+cat 1> output.txt  -> will overwrite contents
+cat 1>> output.txt -> will apend to the contents
+
+standard error:
+cat -k balabfdd 2>> error.txt
+
+using both standard output and standard error: cat 1>> output.txt 2>>error.txt
+
+standard input:
+cat < input.txt
+
+Reading from a file and writing to the file:
+cat < input.txt 1>>output.txt
+
+tty - to get the terminal name
+
+passing from cat to other terminal: cat < input.txt >> /dev/pts/3
+
+
+
+Piping:
+-------
+date > date.txt
+cut < date.txt --delimiter " " --fields 1   -> without piping
+
+with piping:
+date | cut  --delimiter " " --fields 1 > today.txt
+
+once redirecton is done, no more piping can be done
+
+
+using tee command:
+------------------
+date | tee fulldate.txt |cut --delimiter " " --fields 1
+
+date | tee fulldate.txt |cut --delimiter " " --fields 1 | tee today.txt
+
+
+using xargs command:
+---------------------
+
+will convert data from standard input to command line arg to work with commands that does not accept standard input such as "echo"
+
+date | cut --delimiter " " --fields 1 | xargs echo
+cat filestodelete.txt | xargs rm
+
+
+Aliases:
+---------
+
+alias getdates='date | tee /home/dhinesh/fulldate.txt | cut --delimiter " " --fields 1 | tee /home/dhinesh/shortdate.txt |xargs echo hello'
+alias calmagic='xargs cal -A 1 -B 1 > /home/dhinesh/thing.txt'
+
+
+The Linux File System:
+-----------------------
+/
+/bin
+/boot
+/dev
+/etc - admin config files
+/home - home directory for regular users
+/media -  removable media
+/lib
+/mnt
+/misc
+/opt
+/proc
+/root
+/sbin
+/tmp
+/usr
+/var
+
+
+Navigating the file system:
+----------------------------
+~ means current user home directory
+pwd
+
+ls -F -> to add / to the folders while displaying the list
+
+
+. current directory
+.. parent directory
+
+cd /  -> will go to the root folder
+
+cd with no argument will move us to the current user home drectory
+
+File Extenstions in linux:
+---------------------------
+"file" command can be used to determine the file type
+
+file file.JPG -> will give the below output
+file.png: JPEG image data, Exif standard: [TIFF image data, little-endian, direntries=12, manufacturer=Canon, model=Canon EOS 1300D, orientation=lower-left, xresolution=196, yresolution=204, resolutionunit=2, datetime=2018:09:02 16:28:09], baseline, precision 8, 5184x3456, frames 3
+
+
+file extension is not important to the linux operating system .
+
+Wildcards:
+-----------
+
+* => Matches anything, regardless of length
+? - Matches anything, but for one place only.
+[options] -> Matches any of the options inside for 1 place only
+
+
+"ls *" will display the contents of all the folders in the pwd
+"ls D*"  => list the contents of direntries starts with the letter 'D'
+
+ls *.pdf
+ls ?.txt
+ls ??.txt  (aa.txt)
+ls a[1234].txt  => macthes a1.txt, a2.txt and etc.
+ls a[A-Z].txt 
+ls a[0-9][0-9].txt
+*[0-9][A-9].pdf
+
+
+Creating Files and Folders:
+---------------------------
+touch file.txt
+echo "hello" > hello.txt
+
+mkdir foldername  (to create folders)
+mkdir fodler1 folder2
+
+Use _ whenever multiple words are there in the folder or file name (recommended)
+
+Braces expansion:
+-----------------
+mkdir {jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2017,2018,2019,2020,2021,2022} 
+above command will create folders like jan_2017, jan_2018,...., dec_2022
+
+To create the files under each of the above folders:
+touch {jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2017..2022}/file{1..100}
+
+This can be used with most of the commands such as ls
+ls {jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec}_{2017,2018,2019,2020,2021,2022}
+
+touch sample_{A,B,C}.txt
+touch sample_{A..Z}.txt
+
+How would we create a folder called A and inside of that, a folder called B and inside of that a folder called C, all in one go?
+
+mkdir -p A/B/C
+
+
+Deleting Files:
+----------------
+rm delemete 
+rm file1.txt file2.txt
+rm file*.txt
+rm file*
+rm *2.*
+rm *[23].*  => files with either 2 or 3 or 23
+
+
+for folders we need to give -r option
+rm -r delfolder
+rm -r * => deletes everything (not recommdend)
+
+deleting in interactive mode: using -i 
+rm -ri delfolder/
+
+rm: descend into directory 'delfolder/'? y
+rm: descend into directory 'delfolder/delete1'? y
+rm: remove regular empty file 'delfolder/delete1/file3'? y
+rm: remove regular empty file 'delfolder/delete1/file1'? y
+rm: remove regular empty file 'delfolder/delete1/file2'? y
+and etc ....
+
+Removing directories that are empty  => rmdir
+rmdir delfolder/*
+rmdir: failed to remove 'delfolder/delete1': Directory not empty
+rmdir: failed to remove 'delfolder/delete2': Directory not empty
+
+
+Copying files and folders:
+--------------------------
+from file to a file: cp file1.txt file2.txt (it will create a file if not exists)
+cp file1.txt dest/
+"cp dest/ ."  => copy everything from dest to the current working folder
+cp -r src dest/  => src folder and all of it's contents will be copied. if -r is not there only the top level folder will be ciopied 
+
+
+Moving and Renaming folders and files:
+--------------------------------------
+
+Renaming files:  mv oldname.txt newname.txt
+Renaming directory: mv oldfolder newfolder
+moving files from a folder: mv newfolder/* .
+mv file*.txt newfolder/
+moving a folder to another folder: mv newfolder/ ~/Documents/
+if folder is not there, it will be created: mv ~/Documents/newfolder/ ./jackpot
+
+
+Editing files using Nano:
+--------------------------
+nano diary.txt => file will be created if does not exist
+
+Write out to save the file Ctrl+o
+Ctrl+w to search for the text
+Ctrl+R to insert content from another file 
+ctrl+\ to search and replace
+ctr+k tp cut the text
+ctrl+u to paste
+
+/etc/nanorc file will have the config details
+uncomment the line  "set speller "aspell -x -c"
+open the file to edit in nano then press ctrl+T to start the spell checker
+
+ctrl+_ for goto a line
+alt+U -> undo
+alt+E -> redo
+
+Locate Command:
+----------------
+To locate files. give i for for case insensitive
+locate *.conf
+locate -i *.CONF
+locate -i --limit 3  *.CONF  -> to limit the results
+
+to get the database information "locate -S"
+
+locate -e *.conf  -> This will also check the existence of the file instead of just searching for the database
+
+locate --follow *.conf
+
+updatedb command:
+-----------------
+to udpate the database . To locate the files from the system we need to update the db
+
+sudo updatedb
+
+check the database changes from "locate -S" command
+
+Find command:
+-------------
+for searching in the file system
+it will display all the files directories and the contents in them
+
+find / -> to list everything in the system ( not recommended)
+
+find ~/Documents/
+
+find . -maxdepth 1 -> oly show what is in the current directory
+find . -maxdepth 2 -> second level children
+find . -type f  -> only files
+find . -type d  -> only directories
+find . -maxdepth 1 
+find . -name "3.txt"   -> find using name
+find . -name "*.txt"
+find . -iname "3.txt"  -> case insensitive operation
+find / -type f -size +100k  -> to search for files with size more than 100k
+find / -type f -size +100k | wc -l  -> get teh count of the find results
+find / -type f -size +100k  -size -5M | wc -l -> between 100k and 5M
+find / -type f -size +100k -o -size -5M | wc -l  -> more  than 100k or less than 5 M
+sudo find / -type f -size +100k -size -5M -exec cp {} ~/tbd/project/copy_here \;  -> to run find and copy the files to the destination folder using -exec option
+sudo find / -type f -size +100k -size -5M -ok cp {} ~/tbd/project/copy_here \;  -> -ok option will ask for confirmation for all the files
+
+Excersice:
+touch folder{1..500}/file{1..100}.txt
+touch folder$(shuf -i 1-500 -n 1)/needle.txt  -> to create a files needle.txt in a random directory
+find  -type f -name needle.txt -exec mv {} ~/Desktop \;
+find ~ -type f -size +5M -exec rm {} \;
+
+Viewing files;
+--------------
+cat birthday.txt
+cat diary.txt 
+cat birthday.txt diary.txt 
+cat bir*.txt  -> using wildcards
+
+tac alpha.txt -> to print the lines from bottom to top
+
+cat birthday.txt diary.txt newfile.txt | tac > reversed.txt
+
+rev birthday.txt -> reverses the contents horizontally
+
+cat birthday.txt diary.txt newfile.txt | tac |rev 
+
+less /etc/cups/cups-browsed.conf  -> to open large files for reading and oress q for closing the file
+find -name "*.txt" | less   -> less command with find
+less /etc/cups/cups-browsed.conf | wc -l -> to get the word count
+
+head command to limit the number of lines to display in the cat output
+cat newfile.txt | head -n 2
+
+tail command to display the botton lines
+tail -n 20 /etc/cups/cups-browsed.conf
+head -n 20 /etc/cups/cups-browsed.conf | tail -n 3  -> combining head and tail
+
+
+Sorting Files:
+---------------
+sort words.txt
+sort words.txt | tac
+sort -r words.txt  -> similar to tac
+sort words.txt | rev
+sort -n numbers.txt -> For numbers
+sort -u numbers0-9.txt -> sort and return only unique results
+ls -l /etc | head -n 20 | sort -k 5n  -> soty by 5th column
+ls -l /etc | head -n 20 | sort -k 5nr  -> reverse
+ls -lh /etc | head -n 20 | sort -k 5hr
+ls -lh /etc | head -n 20 | sort -k 6M => sort by month
+ls -lh /etc | head -n 20 | sort -k 6M => reverse sort by month
+
+
+Searching file content:
+-----------------------
+grep e newfile.txt  => search for letter e in newfile.txt
+grep -c e newfile.txt  => to get the count of search word
+grep Dhinesh  newfile.txt | xargs touch 
+grep -ic e gatsby_book.txt  => case insensitive comparison
+grep -v e gatsby_book.txt  => use -v option to get all the words without letter e in them
+grep -i e gatsby_book.txt newfile.txt 
+ls -lF / | grep opt
+ls -F /etc | grep -v /  => to get only files and not folders
+
+
+File Archiving:
+---------------
+1. Make tarball
+2. Compress tarball
+
+tar -cvf myarchive.tar alpha.txt birthday.txt
+ls -l | grep .tar
+tar -tf myarchive.tar   => to check the contents of tar file
+
+Extracting:  use -x command
+tar -xvf myarchive.tar 
+tar -tf myarchive.tar   => just to chek the files in tarball
+
+compression: gzip and bzip2  (gzip is faster)
+
+gzip:
+gzip myarchive.tar => this will create tar.gz file
+gunzip myarchive.tar.gz  => to unzip from gz file
+
+bzip2:
+bzip2 myarchive.tar => this will create tar.bz2 file
+bunzip2 myarchive.tar.bz2 => to unzip from bz2 file
+
+zip:
+zip sample.zip  alpha.txt birthday.txt 
+unzip sample.zip 
+
+
+tar with compression: (add -z option ) (use -j for bzip2)
+tar -cvzf myarchive1.tar.gz alpha.txt birthday.txt
+tar -xvzf myarchive1.tar.gz => to extract
+
+
+Bash shell scripting:
+---------------------
+starts with #!/bin/bash
+
+bash second_script.sh  => to run the .sh file
+
+mv backup.sh backup
+chmod +x backup
+
+to run the sh file as an executable, edit the ~/.bashrc and add the below
+PATH="$PATH:$HOME/bin"  => assumption is this is where the bash file (backup) available
+echo $PATH => to check whether the custom path is available
+backup (this will run the file from anywhere in the file system)
+
+Scheduling with Cron Automation:
+--------------------------------
+crontab -e (it will ask for the editor for the very first time)
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+* * * * * echo "Hello World" >> ~/tbd/project/hello.txt => every minute, every hour, wevery day, every month
+
+*/15 * * * * echo "Hello World" >> ~/tbd/project/hello.txt => every 15 minutes
+
+59 23 * * FRI bash ~/bin/backup
+
+refer crontab.guru for more details
+
+once it we save the crontab, it will start automatically
+
+
+The GNU Project:
+-----------------
+GNU public license
+
+uname -o => to get the OS details
+uname -m => to get the architecture (x86 and etc)
+
+
+Compiling softwware from sourcecode:
+------------------------------------
+tar -xJf coreutils-8.28.tar.xz
+
+sudo apt-get install gcc  => c compiler
+bash configure => run in the coreutils-8 folder. This will create MakeFile in the folder
+apt-get install make
+make  => run it in the same folder as MakeFile
+sude make install
+
+everytime you make changes run the below command
+sude make && make install
+
+The Software Repositories:
+--------------------------
+4 repositories for ubuntu (get help from ubuntu official site)
+Main
+Universe
+Restricted
+Multiverse
+
+packages.ubuntu.com => will have ubuntu distributions and others
+
+Advanced Packaging Tool (APT):
+------------------------------
+
+Package information stored in the system (apt-cache) it is in /var/lib/apt/lists
+
+apt-cache search  docx  => searching for packages
+
+apt-cache show docx2txt | less => to get information
+
+Updating the Cache and Software:
+--------------------------------
+sudo apt-get update => to update the apt cache
+sudo apt-get upgrade => to upgrade the software on the system
+
+Installing new package:
+-----------------------
+apt-cache search xeyes
+apt-cache show x11-apps | less
+sudo apt-get install x11-apps
+xeyes
+man xeyes
+xeyes -center green
+xman
+
+
+Downloading source code:
+------------------------
+sudo nano /etc/apt/sources.list
+uncomment the source code in the file
+sudo apt-get update
+sudo apt-get install dpkg-dev
+sudo apt-get source dpkg-dev => to get the source
+
+
+Uninstalling package:
+---------------------
+sudo apt-get remove x11-apps => uninstalls but will keep the configuration files
+
+sudo apt-get purge x11-apps => uninstalls and removes all the files
+
+sudo apt-get autoremove   => remove all the dangling dependency files from the system and cleans up the space
+
+sude apt-get clean will remove the compressed packages from the below directory
+/var/cache/apt/archives/
+
+below command will clean only those dont have dependencies
+sudo apt-get autoclean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

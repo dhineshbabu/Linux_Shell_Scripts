@@ -1,0 +1,6 @@
+#!/bin/bash
+#Author: Thanos
+#Date Created: 03/28/2020
+#Description: This script will output "Hello World" to the screen
+
+echo Hello World

@@ -1,0 +1,15 @@
+#!/bin/bash
+#Desc: This script will ping multiple remote hosts and notify
+
+hosts="/home/adminuser/scripts/advanced_scripts/03A_list_ipaddress"
+
+for ip in $(cat $hosts)
+do
+	ping -c1 $ip &> /dev/null
+	if [ $? -eq 0  ]
+	then
+	echo $ip is ok
+	else
+	echo $ip not ok
+	fi
+done
